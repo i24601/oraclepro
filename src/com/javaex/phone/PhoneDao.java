@@ -17,7 +17,7 @@ public class PhoneDao {
 
 	private PreparedStatement pstmt = null;
 	private Connection conn = null;
-
+	private int count;
 	private void connect() {
 
 		try {
@@ -44,7 +44,7 @@ public class PhoneDao {
 		}
 	}
 
-	public void phoneInsert(PhoneVo vo) {
+	public int phoneInsert(PhoneVo vo) {
 		connect();
 		String query = "";
 		query += " insert into ";
@@ -62,17 +62,17 @@ public class PhoneDao {
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getHp());
 			pstmt.setString(3, vo.getCompany());
-			pstmt.executeUpdate();
+			count = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
 
 		close();
-
+		return count;
 	}
 
-	public void deletePhone(int i) {
+	public int deletePhone(int i) {
 		connect();
 		String query = "";
 		query += " delete from person ";
@@ -80,14 +80,15 @@ public class PhoneDao {
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, i);
-			pstmt.executeUpdate();
+			count=pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		close();
+		return count;
 	}
 
-	public void updatePhone(PhoneVo vo) {
+	public int updatePhone(PhoneVo vo) {
 		connect();
 		String query = "";
 		query += " update person ";
@@ -104,13 +105,13 @@ public class PhoneDao {
 			pstmt.setString(3, vo.getCompany());
 			pstmt.setInt(4, vo.getPerson_id());
 
-			pstmt.executeUpdate();
+			count=pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		close();
-
+		return count;
 	}
 
 	public List<PhoneVo> search(String str) {

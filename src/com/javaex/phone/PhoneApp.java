@@ -50,7 +50,7 @@ public class PhoneApp {
 			company = sc.nextLine();
 			
 			pVo = new PhoneVo(name, hp, company);
-			pDao.phoneInsert(pVo);
+			System.out.println(pDao.phoneInsert(pVo)+"건 등록되었습니다");
 			
 			break;
 		case 3 : 
@@ -65,11 +65,11 @@ public class PhoneApp {
 			company = sc.nextLine();
 			
 			pVo = new PhoneVo(person_id, name, hp, company);
-			pDao.updatePhone(pVo);
+			System.out.println(pDao.updatePhone(pVo)+"건 수정되었습니다");
 			break;
 		case 4 : 
 			System.out.print(">번호 : ");
-			pDao.deletePhone(sc.nextInt());
+			System.out.println(pDao.deletePhone(sc.nextInt())+"건 삭제되었습니다");
 			break;
 		case 5 : 
 			System.out.print("검색어 >  ");
