@@ -44,40 +44,6 @@ public class PhoneDao {
 		}
 	}
 
-	public List<PhoneVo> getPhoneList() {
-		connect();
-		List<PhoneVo> pList = new ArrayList<PhoneVo>();
-		ResultSet rs = null;
-		try {
-
-			String query = "";
-			query += " select ";
-			query += " person_id, ";
-			query += " name, ";
-			query += " hp, ";
-			query += " company ";
-			query += " from person";
-
-			pstmt = conn.prepareStatement(query);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				int person_id = rs.getInt("person_id");
-				String name = rs.getString("name");
-				String hp = rs.getString("hp");
-				String company = rs.getString("company");
-				PhoneVo vo = new PhoneVo(person_id, name, hp, company);
-				pList.add(vo);
-			}
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		}
-
-		close();
-
-		return pList;
-	}
-
 	public void phoneInsert(PhoneVo vo) {
 		connect();
 		String query = "";
@@ -106,7 +72,7 @@ public class PhoneDao {
 
 	}
 
-	public void deleteBook(int i) {
+	public void deletePhone(int i) {
 		connect();
 		String query = "";
 		query += " delete from person ";
@@ -121,7 +87,7 @@ public class PhoneDao {
 		close();
 	}
 
-	public void updateBook(PhoneVo vo) {
+	public void updatePhone(PhoneVo vo) {
 		connect();
 		String query = "";
 		query += " update person ";
@@ -160,14 +126,22 @@ public class PhoneDao {
 			query += " hp, ";
 			query += " company ";
 			query += " from person ";
-			query += " where name like ? or ";
-			query += " hp like ? or";
-			query += " company like ? ";
 
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, "%"+str+"%");
-			pstmt.setString(2, "%"+str+"%");
-			pstmt.setString(3, "%"+str+"%");
+			if (str != "") {
+				query += " where name like ? or ";
+				query += " hp like ? or";
+				query += " company like ? ";
+
+				pstmt = conn.prepareStatement(query);
+
+				pstmt.setString(1, "%" + str + "%");
+				pstmt.setString(2, "%" + str + "%");
+				pstmt.setString(3, "%" + str + "%");
+			}
+
+			else if (str == "") {
+				pstmt = conn.prepareStatement(query);
+			}
 
 			rs = pstmt.executeQuery();
 

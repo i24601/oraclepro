@@ -14,6 +14,7 @@ public class PhoneApp {
 		
 		int num;
 		boolean run = true;
+		String str;
 		String name, hp, company;
 		int person_id;
 		Scanner sc = new Scanner(System.in);
@@ -27,9 +28,10 @@ public class PhoneApp {
 		num = sc.nextInt();
 		sc.nextLine();
 		switch (num) {
-		case 1 : 
+		case 1 :
+			str = "";
 			pList.clear();
-			pList = pDao.getPhoneList();
+			pList = pDao.search(str);
 			
 			for(PhoneVo vo : pList) 
 			{
@@ -63,15 +65,15 @@ public class PhoneApp {
 			company = sc.nextLine();
 			
 			pVo = new PhoneVo(person_id, name, hp, company);
-			pDao.updateBook(pVo);
+			pDao.updatePhone(pVo);
 			break;
 		case 4 : 
 			System.out.print(">번호 : ");
-			pDao.deleteBook(sc.nextInt());
+			pDao.deletePhone(sc.nextInt());
 			break;
 		case 5 : 
 			System.out.print("검색어 >  ");
-			String str = sc.nextLine();
+			str = sc.nextLine();
 			pList.clear();
 			pList = pDao.search(str);
 			
